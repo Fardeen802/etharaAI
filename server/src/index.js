@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import projectRoutes from "./routes/projectRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import cors from "cors";
 
 
 
@@ -15,19 +16,23 @@ dotenv.config();
 
 const app = express();
 
-app.use((req, res, next) => {
-    console.log("REQUEST HIT:", req.method, req.url, req.headers.origin);
-  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(204);
-  }
-
-  next();
-});
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://etharaai.up.railway.app",
+  ];
+  
+  app.use(
+    cors({
+      origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
+      credentials: true,
+    })
+  );
 
 app.use(cookieParser());
 app.use(express.json());
