@@ -50,24 +50,14 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm text-gray-500 mb-1.5">Email</label>
-            <div className="relative">
-              <input
-                name="password"
-                type={showPassword ? "text" : "password"}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className="w-full px-3 py-2 pr-12 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gray-900 transition"
-                required
-              />
-
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-2 text-xs text-gray-500 hover:text-black"
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
+            <input
+              name="email"
+              type="email"
+              onChange={handleChange}
+              placeholder="you@example.com"
+              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gray-900 transition"
+              required
+            />
           </div>
 
           <div>
@@ -75,14 +65,24 @@ const Login = () => {
               <label className="text-sm text-gray-500">Password</label>
               <a href="#" className="text-xs text-gray-400 hover:text-gray-700 transition">Forgot password?</a>
             </div>
-            <input
-              name="password"
-              type="password"
-              onChange={handleChange}
-              placeholder="••••••••"
-              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gray-900 transition"
-              required
-            />
+            <div className="relative">
+  <input
+    name="password"
+    type={showPassword ? "text" : "password"}
+    onChange={handleChange}
+    placeholder="••••••••"
+    className="w-full px-3 py-2 pr-12 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gray-900 transition"
+    required
+  />
+
+  <button
+    type="button"
+    onClick={() => setShowPassword(!showPassword)}
+    className="absolute right-3 top-2 text-xs text-gray-500 hover:text-black"
+  >
+    {showPassword ? "Hide" : "Show"}
+  </button>
+</div>
           </div>
 
           <button
