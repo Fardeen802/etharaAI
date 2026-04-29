@@ -21,6 +21,7 @@ password: 123456
 
 Member:
 email: member@example.com
+password: 123456
 
 ## Setup
 # server
