@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 const Tasks = () => {
   const { user } = useAuth();
+  const [users, setUsers] = useState([]);
 
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -16,13 +17,15 @@ const Tasks = () => {
 
   const fetchData = async () => {
     try {
-      const [taskRes, projectRes] = await Promise.all([
+      const [taskRes, projectRes, userRes] = await Promise.all([
         api.get("/tasks"),
         api.get("/projects"),
+        user?.role === "admin" ? api.get("/users") : Promise.resolve({ data: [] }),
       ]);
-
+  
       setTasks(taskRes.data);
       setProjects(projectRes.data);
+      setUsers(userRes.data);
     } catch (err) {
       console.log(err);
     }
@@ -84,14 +87,19 @@ const Tasks = () => {
             ))}
           </select>
 
-          <input
-            placeholder="Assign user ID"
-            value={form.assignedTo}
-            onChange={(e) =>
-              setForm({ ...form, assignedTo: e.target.value })
-            }
-            className="border p-2 w-full"
-          />
+          <select
+  value={form.assignedTo}
+  onChange={(e) => setForm({ ...form, assignedTo: e.target.value })}
+  className="border p-2 w-full rounded"
+  required
+>
+  <option value="">Assign to user</option>
+  {users.map((u) => (
+    <option key={u._id} value={u._id}>
+      {u.name} ({u.email}) - {u.role}
+    </option>
+  ))}
+</select>
 
           <button className="bg-black text-white px-4 py-2">
             Create Task
@@ -100,28 +108,47 @@ const Tasks = () => {
       )}
 
       {/* Task List */}
-      <div className="space-y-3">
-        {tasks.map((t) => (
-          <div key={t._id} className="bg-white p-4 rounded shadow">
-            <h2 className="font-bold">{t.title}</h2>
-            <p>{t.project?.name}</p>
-            <p>Status: {t.status}</p>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {tasks.map((t) => (
+    <div
+      key={t._id}
+      className="bg-white p-5 rounded-xl shadow hover:shadow-lg transition border"
+    >
+      <h2 className="font-semibold text-lg">{t.title}</h2>
 
-            {/* Status update */}
-            <div className="space-x-2 mt-2">
-              {["todo", "in-progress", "done"].map((s) => (
-                <button
-                  key={s}
-                  onClick={() => updateStatus(t._id, s)}
-                  className="px-2 py-1 border"
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          </div>
+      <p className="text-gray-500 text-sm mt-1">
+        {t.project?.name}
+      </p>
+
+      <div className="mt-3">
+        <span
+          className={`text-xs px-2 py-1 rounded-full ${
+            t.status === "done"
+              ? "bg-green-100 text-green-600"
+              : t.status === "in-progress"
+              ? "bg-yellow-100 text-yellow-600"
+              : "bg-gray-200 text-gray-600"
+          }`}
+        >
+          {t.status}
+        </span>
+      </div>
+
+      {/* Status Buttons */}
+      <div className="flex flex-wrap gap-2 mt-4">
+        {["todo", "in-progress", "done"].map((s) => (
+          <button
+            key={s}
+            onClick={() => updateStatus(t._id, s)}
+            className="text-xs px-3 py-1 border rounded-lg hover:bg-gray-100 transition"
+          >
+            {s}
+          </button>
         ))}
       </div>
+    </div>
+  ))}
+</div>
     </div>
   );
 };

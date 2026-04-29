@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Projects from "./pages/Projects";
 import Tasks from "./pages/Tasks";
+import Layout from "./components/Layout";
 function App() {
   return (
     <AuthProvider>
@@ -18,7 +19,9 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
+                <Layout>
                 <Dashboard />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -26,7 +29,9 @@ function App() {
             path="/projects"
             element={
               <ProtectedRoute>
+                <Layout>
                 <Projects />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -34,7 +39,9 @@ function App() {
             path="/tasks"
             element={
               <ProtectedRoute>
+                <Layout>
                 <Tasks />
+                </Layout>
               </ProtectedRoute>
             }
           />

@@ -46,21 +46,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow">
-        <div>
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="text-gray-600">
-            {user?.name} · {user?.role}
-          </p>
-        </div>
-
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 text-white px-4 py-2 rounded"
-        >
-          Logout
-        </button>
-      </div>
+      
 
       <div className="grid md:grid-cols-5 gap-4 mt-6">
         {cards.map((item) => (
@@ -70,10 +56,7 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
-      <Link to="/projects" className="text-blue-500 underline">
-  Go to Projects
-</Link>
-<Link to="/tasks">Go to Tasks</Link>
+ 
     </div>
   );
 };

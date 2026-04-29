@@ -3,7 +3,7 @@ import User from "../models/User.js";
 
 export const protect = async (req, res, next) => {
   try {
-    // 🔥 get token from cookies instead of headers
+
     const token = req.cookies?.token;
 
     if (!token) {

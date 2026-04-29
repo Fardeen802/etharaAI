@@ -58,14 +58,24 @@ const Projects = () => {
       )}
 
       {/* Project List */}
-      <div className="space-y-3">
-        {projects.map((p) => (
-          <div key={p._id} className="bg-white p-4 shadow rounded">
-            <h2 className="font-bold">{p.name}</h2>
-            <p className="text-gray-600">{p.description}</p>
-          </div>
-        ))}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {projects.map((p) => (
+    <div
+      key={p._id}
+      className="bg-white p-5 rounded-xl shadow hover:shadow-lg transition border"
+    >
+      <h2 className="font-semibold text-lg">{p.name}</h2>
+
+      <p className="text-gray-500 text-sm mt-2 line-clamp-2">
+        {p.description || "No description"}
+      </p>
+
+      <div className="mt-4 text-xs text-gray-400">
+        Created recently
       </div>
+    </div>
+  ))}
+</div>
       
     </div>
   );

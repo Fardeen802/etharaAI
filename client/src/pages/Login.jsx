@@ -9,14 +9,11 @@ const Login = () => {
   const { loginUser } = useAuth();
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
     try {
       const res = await api.post("/auth/login", form);
       loginUser(res.data);
@@ -27,26 +24,71 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-4">Login</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm w-full max-w-sm p-8">
 
-        {error && <p className="bg-red-100 text-red-700 p-2 rounded mb-3">{error}</p>}
+        {/* Icon + heading */}
+        <div className="mb-7">
+          <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center mb-5">
+            <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <h1 className="text-xl font-semibold text-gray-900">Welcome back</h1>
+          <p className="text-sm text-gray-500 mt-1">Sign in to continue</p>
+        </div>
 
-        <input name="email" placeholder="Email" onChange={handleChange}
-          className="w-full border p-2 rounded mb-3" />
+        {/* Error */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg px-3 py-2.5 mb-5">
+            {error}
+          </div>
+        )}
 
-        <input name="password" type="password" placeholder="Password" onChange={handleChange}
-          className="w-full border p-2 rounded mb-3" />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm text-gray-500 mb-1.5">Email</label>
+            <input
+              name="email"
+              type="email"
+              onChange={handleChange}
+              placeholder="you@example.com"
+              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gray-900 transition"
+              required
+            />
+          </div>
 
-        <button className="w-full bg-black text-white py-2 rounded">
-          Login
-        </button>
+          <div>
+            <div className="flex justify-between items-center mb-1.5">
+              <label className="text-sm text-gray-500">Password</label>
+              <a href="#" className="text-xs text-gray-400 hover:text-gray-700 transition">Forgot password?</a>
+            </div>
+            <input
+              name="password"
+              type="password"
+              onChange={handleChange}
+              placeholder="••••••••"
+              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gray-900 transition"
+              required
+            />
+          </div>
 
-        <p className="mt-3 text-sm">
-          New user? <Link className="text-blue-600" to="/signup">Signup</Link>
+          <button
+            type="submit"
+            className="w-full bg-gray-900 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-gray-700 transition mt-2"
+          >
+            Sign in
+          </button>
+        </form>
+
+        <p className="mt-5 text-sm text-center text-gray-500">
+          No account?{" "}
+          <Link to="/signup" className="text-gray-900 font-medium hover:underline">
+            Create one
+          </Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 };
