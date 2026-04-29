@@ -7,7 +7,6 @@ import cookieParser from "cookie-parser";
 import projectRoutes from "./routes/projectRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
-import cors from "cors";
 
 
 
